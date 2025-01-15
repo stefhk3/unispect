@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cs.ut.ee</groupId>
+    <artifactId>unispect</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>A unispect project</name>
+    <url>https://nmrshiftdb.nmr.uni-koeln.de/unispect/</url>
+    
+    <properties>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    <maven.compiler.source>8</maven.compiler.source>
+	    <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+    
+    <repositories>
+        <repository>
+    	  	<id>repository.jboss.org-public</id>
+      		<name>JBoss.org Maven repository</name>
+    		<url>https://repository.jboss.org/nexus/content/groups/public</url>
+    	</repository>  
+    </repositories>
+    
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>4.0.1</version>
+		    <scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.torque/torque-runtime -->
+		<dependency>
+		    <groupId>org.apache.torque</groupId>
+		    <artifactId>torque-runtime</artifactId>
+		    <version>3.3</version>
+		</dependency>
+		<dependency>
+            <groupId>org.openscience.nmrshiftdb</groupId>
+            <artifactId>nmrshiftdb-lib</artifactId>
+            <version>0.9.1</version>
+            <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/nmrshiftdb-lib.jar</systemPath>
+		</dependency>
+		<dependency>
+            <groupId>de.unikoeln.chemie.nmr</groupId>
+            <artifactId>nmredata</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/nmredata.jar</systemPath>
+		</dependency>
+		<dependency>
+            <groupId>org.jcamp</groupId>
+            <artifactId>jcamp-parser-clc</artifactId>
+            <version>1.4.15</version>
+            <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/JCampParser.jar</systemPath>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+		<dependency>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>3.5.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/stratum/stratum -->
+		<dependency>
+		    <groupId>stratum</groupId>
+		    <artifactId>stratum</artifactId>
+		    <version>1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>edu.kit.datamanager</groupId>
+		    <artifactId>ro-crate-java</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		<dependency>
+          <groupId>org.openscience.cdk</groupId>
+          <artifactId>cdk-bundle</artifactId>
+          <version>2.9</version>
+        </dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-all -->
+		<dependency>
+		    <groupId>org.apache.xmlgraphics</groupId>
+		    <artifactId>batik-all</artifactId>
+		    <version>1.18</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+		<dependency>
+		    <groupId>com.thoughtworks.xstream</groupId>
+		    <artifactId>xstream</artifactId>
+		    <version>1.4.21</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>33.4.0-jre</version>
+		</dependency>
+    </dependencies>
+    
+    
+    
+  <build>
+    <finalName>unispect</finalName>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.3.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>    
+</project>
