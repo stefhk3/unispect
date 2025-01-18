@@ -2,6 +2,7 @@ package ee.ut.cs.unispect.json;
 
 public class Spectrum {
 	private String ontologyterm;
+	private String ontologylink;
 	private int sourceid;
 	private String spectrumURL;
 	private String compoundURL;
@@ -44,6 +45,12 @@ public class Spectrum {
 	}
 	public void setOntologyterm(String ontologyterm) {
 		this.ontologyterm = ontologyterm;
+	}
+	public String getOntologylink() {
+		return ontologylink;
+	}
+	public void setOntologylink(String ontologylink) {
+		this.ontologylink = ontologylink;
 	}
 	public int getSourceid() {
 		return sourceid;

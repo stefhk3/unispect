@@ -31,6 +31,9 @@ import com.google.gson.JsonParser;
 import ee.ut.cs.unispect.json.Compound;
 import ee.ut.cs.unispect.json.SpectraResult;
 import ee.ut.cs.unispect.json.Spectrum;
+import ee.ut.cs.unispect.om.UnispectCompoundPeer;
+import ee.ut.cs.unispect.om.UnispectSpectrum;
+import ee.ut.cs.unispect.om.UnispectSpectrumPeer;
 
 public class Unispect extends HttpServlet {
 
@@ -90,6 +93,7 @@ public class Unispect extends HttpServlet {
 			String reqcompound = requestjson.get("compound").getAsString();
 			if(reqtype.equals("inchikey")) {
 				try {
+					//we look into nmrshiftdb first
 					Criteria crit=new Criteria();
 					crit.add(DBCanonicalNamePeer.NAME,reqcompound);
 					crit.addJoin(DBCanonicalNamePeer.MOLECULE_ID, DBMoleculePeer.MOLECULE_ID);
@@ -112,6 +116,7 @@ public class Unispect extends HttpServlet {
 							if(dbspectrum.getReviewFlag().equals(NmrshiftdbConstants.TRUE) && ontologies.get(dbspectrum.getDBSpectrumType().getSpectrumTypeId())!=null) {
 								Spectrum spectrum=new Spectrum();
 								spectrum.setOntologyterm(ontologies.get(dbspectrum.getDBSpectrumType().getSpectrumTypeId()));
+								spectrum.setOntologyterm(ontologies.get(dbspectrum.getDBSpectrumType().getSpectrumTypeId()).substring(31));
 								spectrum.setSourceid(1);
 								String comment="A "+dbspectrum.getDBSpectrumType().getNameAsString()+" NMR of "+mols.get(0).getChemicalNamesAsOneStringWithFallbackEasy() +" measured in "+dbspectrum.getSolvent()+" on a "+dbspectrum.getFrequency()+" MHz spectrometer";
 								spectrum.setComment(comment);
@@ -123,6 +128,23 @@ public class Unispect extends HttpServlet {
 							}
 						}					
 					}
+					//We deal with databases from the unispect database
+					crit=new Criteria();
+					crit.add(UnispectCompoundPeer.INCHI_KEY,reqcompound);
+					crit.addJoin(UnispectCompoundPeer.COMPOUND_ID, UnispectSpectrumPeer.COMPOUND_ID);
+					List<UnispectSpectrum> spectra = UnispectSpectrumPeer.doSelect(crit);
+					for(UnispectSpectrum dbspectrum : spectra) {
+							Spectrum spectrum=new Spectrum();
+							spectrum.setOntologyterm(dbspectrum.getUnispectSpectrumType().getOntologyTerm());
+							spectrum.setOntologylink(dbspectrum.getUnispectSpectrumType().getOntologyLink());
+							spectrum.setSourceid(dbspectrum.getSourceId());
+							spectrum.setComment(new String(dbspectrum.getComment()));
+							spectrum.setCompoundURL(dbspectrum.getUnispectSource().getBaseUrlCompound()+dbspectrum.getCompoundId());
+							spectrum.setCompoundId(dbspectrum.getDbCompoundId());
+							spectrum.setSpectrumId(dbspectrum.getDbSpectrumId());
+							spectrum.setSpectrumURL(dbspectrum.getUnispectSource().getBaseUrlSpectrum()+dbspectrum.getSpectrumId());
+							response.getCompounds().get(0).getSpectra().add(spectrum);
+					}					
 					Gson gson = new Gson();
 					res.getWriter().write(gson.toJson(response));
 					res.getWriter().close();
