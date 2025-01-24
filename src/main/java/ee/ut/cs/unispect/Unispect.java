@@ -139,10 +139,10 @@ public class Unispect extends HttpServlet {
 							spectrum.setOntologylink(dbspectrum.getUnispectSpectrumType().getOntologyLink());
 							spectrum.setSourceid(dbspectrum.getSourceId());
 							spectrum.setComment(new String(dbspectrum.getComment()));
-							spectrum.setCompoundURL(dbspectrum.getUnispectSource().getBaseUrlCompound()+dbspectrum.getCompoundId());
+							spectrum.setCompoundURL(dbspectrum.getUnispectSource().getBaseUrlCompound()+dbspectrum.getDbCompoundId());
 							spectrum.setCompoundId(dbspectrum.getDbCompoundId());
 							spectrum.setSpectrumId(dbspectrum.getDbSpectrumId());
-							spectrum.setSpectrumURL(dbspectrum.getUnispectSource().getBaseUrlSpectrum()+dbspectrum.getSpectrumId());
+							spectrum.setSpectrumURL(dbspectrum.getUnispectSource().getBaseUrlSpectrum()+dbspectrum.getDbSpectrumId());
 							response.getCompounds().get(0).getSpectra().add(spectrum);
 					}					
 					Gson gson = new Gson();
